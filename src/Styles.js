@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Button from 'react-bootstrap/Button'
 
 const PageOuter = styled.div`
   display: flex;
@@ -51,3 +52,15 @@ export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
 `
+
+export const TranslateButton = (props) => (
+  <Button variant="dark" size="lg" {...props}>
+    Show translation
+  </Button>
+)
+
+export const NextCardButton = (props) => (
+  <Button variant="dark" size="lg" {...props}>
+    Next card
+  </Button>
+)

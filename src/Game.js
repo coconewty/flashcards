@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import data from './data'
 import shuffle from 'lodash.shuffle'
-import Button from 'react-bootstrap/Button'
 import {
   Page,
   Main,
@@ -9,58 +8,57 @@ import {
   HeaderText,
   CardText,
   ButtonWrapper,
+  TranslateButton,
+  NextCardButton,
 } from './Styles'
 
-const TranslateButton = (props) => (
-  <Button variant="dark" size="lg" {...props}>
-    Show translation
-  </Button>
-)
-
-const NextCardButton = (props) => (
-  <Button variant="dark" size="lg" {...props}>
-    Next card
-  </Button>
-)
-
-const randomiseOrder = (cardObj) => {
-  if (Math.floor(Math.random() * 2) === 0) {
-    return [cardObj.en, cardObj.es]
-  } else {
-    return [cardObj.es, cardObj.en]
-  }
+const coinFlip = () => {
+  return Math.floor(Math.random() * 2) === 0 // bool, 50:50
 }
 
 export default () => {
-  const [weekNumber, setWeekNumber] = useState(0)
-  const [cards, setCards] = useState(shuffle(data[weekNumber].cards))
-  const [cardNumber, setCardNumber] = useState(0)
-  const [cardText, setCardText] = useState(randomiseOrder(cards[cardNumber]))
   const [showTranslation, setShowTranslation] = useState(false)
-
-  const handleWeekChange = (event) => {
-    const newWeekNumber = event.target.value
-    setWeekNumber(newWeekNumber)
-    setCards(data[newWeekNumber].cards)
-    setCardNumber(0)
-    setShowTranslation(false)
-  }
+  const [weekNumber, setWeekNumber] = useState(0)
+  const [cardNumber, setCardNumber] = useState(0)
+  const [cards, setCards] = useState(shuffle(data[weekNumber].cards))
+  const [coinFlipResult, setCoinFlipResult] = useState(coinFlip())
 
   const handleShowTranslation = () => {
     setShowTranslation(true)
   }
 
+  const handleWeekChange = (event) => {
+    setShowTranslation(false)
+    const newWeekNumber = parseInt(event.target.value)
+    setWeekNumber(newWeekNumber)
+    setCards(shuffle(data[newWeekNumber].cards))
+    setCardNumber(0)
+  }
+
   const handleShowNextCard = () => {
     setShowTranslation(false)
+    setCoinFlipResult(coinFlip())
     if (cardNumber === cards.length - 1) {
       setCards(shuffle(data[weekNumber].cards))
       setCardNumber(0)
-      setCardText(randomiseOrder(cards[cardNumber]))
     } else {
-      setCardNumber(cardNumber + 1)
-      setCardText(randomiseOrder(cards[cardNumber]))
+      setCardNumber((cardNumber) => cardNumber + 1)
     }
   }
+
+  const Content1 = () => (
+    <>
+      {cards[cardNumber][coinFlipResult ? 'en' : 'es']}
+      {!coinFlipResult && '(es)'}
+    </>
+  )
+
+  const Content2 = () => (
+    <>
+      {cards[cardNumber][coinFlipResult ? 'es' : 'en']}
+      {coinFlipResult && '(es)'}
+    </>
+  )
 
   return (
     <Page>
@@ -75,15 +73,19 @@ export default () => {
         </select>
       </Header>
       <Main>
-        <CardText>{cardText[0]}</CardText>
-        <CardText>{showTranslation ? cardText[1] : '...'}</CardText>
+        <CardText>
+          <Content1 />
+        </CardText>
+        <CardText>
+          {!showTranslation && '...'}
+          {showTranslation && <Content2 />}
+        </CardText>
       </Main>
       <ButtonWrapper>
-        {!showTranslation && (
-          <TranslateButton onClick={() => handleShowTranslation()} />
-        )}
-        {showTranslation && (
+        {showTranslation ? (
           <NextCardButton onClick={() => handleShowNextCard()} />
+        ) : (
+          <TranslateButton onClick={() => handleShowTranslation()} />
         )}
       </ButtonWrapper>
     </Page>
