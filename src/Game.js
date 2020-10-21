@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import data from './data'
 import shuffle from 'lodash.shuffle'
+import Button from 'react-bootstrap/Button'
+import { Page, Main, CardText, ButtonWrapper } from './Styles'
 
 const weekNumber = 0
 const cards = data[weekNumber].cards
@@ -24,26 +26,34 @@ export default () => {
   }
 
   return (
-    <div>
-      <p>{currentCard.en}</p>
-      {!showTranslation && (
-        <button onClick={() => setShowTranslation(true)}>
-          Show translation
-        </button>
-      )}
-      {showTranslation && (
-        <>
-          <p>{currentCard.es}</p>
-          <button
+    <Page>
+      <Main>
+        <CardText>{currentCard.en}</CardText>
+        <CardText>{showTranslation ? currentCard.es : '...'}</CardText>
+      </Main>
+      <ButtonWrapper>
+        {!showTranslation && (
+          <Button
+            variant="dark"
+            size="lg"
+            onClick={() => setShowTranslation(true)}
+          >
+            Show translation
+          </Button>
+        )}
+        {showTranslation && (
+          <Button
+            variant="dark"
+            size="lg"
             onClick={() => {
               setShowTranslation(false)
               nextCard()
             }}
           >
             Next card
-          </button>
-        </>
-      )}
-    </div>
+          </Button>
+        )}
+      </ButtonWrapper>
+    </Page>
   )
 }
