@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Button from 'react-bootstrap/Button'
+import { FaVolumeUp } from 'react-icons/fa'
 
 const PageOuter = styled.div`
   display: flex;
@@ -63,4 +64,20 @@ export const NextCardButton = (props) => (
   <Button variant="dark" size="lg" {...props}>
     Next card
   </Button>
+)
+
+const ListenButtonWrapper = styled.button`
+  font-size: 40px;
+  border: none;
+  background: none;
+  padding: 20px;
+  top: -15px;
+  display: inline-block;
+  position: relative;
+`
+
+export const ListenButton = (props) => (
+  <ListenButtonWrapper {...props}>
+    <FaVolumeUp />
+  </ListenButtonWrapper>
 )
