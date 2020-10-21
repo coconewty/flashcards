@@ -2,31 +2,57 @@ import React, { useState } from 'react'
 import data from './data'
 import shuffle from 'lodash.shuffle'
 import Button from 'react-bootstrap/Button'
-import { Page, Main, CardText, ButtonWrapper } from './Styles'
+import {
+  Page,
+  Main,
+  Header,
+  HeaderText,
+  CardText,
+  ButtonWrapper,
+} from './Styles'
 
-const weekNumber = 0
+let weekNumber = 0
+let cardNumber = 0
 const cards = data[weekNumber].cards
 const cardsLength = cards.length
 let shuffledCards = shuffle(cards)
-let currentCardNumber = 0
 
 export default () => {
-  const [currentCard, setCurrentCard] = useState(
-    shuffledCards[currentCardNumber]
-  )
+  const [currentCard, setCurrentCard] = useState(shuffledCards[cardNumber])
+  const [currentWeek, setCurrentWeek] = useState(weekNumber)
+
   const [showTranslation, setShowTranslation] = useState(false)
+
   const nextCard = () => {
-    if (currentCardNumber === cardsLength - 1) {
-      shuffledCards = shuffle(cards)
-      currentCardNumber = 0
+    if (cardNumber === cardsLength - 1) {
+      shuffledCards = shuffle(data[weekNumber].cards)
+      cardNumber = 0
     } else {
-      currentCardNumber++
+      cardNumber++
     }
-    setCurrentCard(shuffledCards[currentCardNumber])
+    setCurrentCard(shuffledCards[cardNumber])
+  }
+
+  const setWeekNumber = (event) => {
+    weekNumber = event.target.value
+    setCurrentWeek(weekNumber)
+    shuffledCards = shuffle(data[weekNumber].cards)
+    cardNumber = 0
+    setCurrentCard(shuffledCards[cardNumber])
   }
 
   return (
     <Page>
+      <Header>
+        <HeaderText>Week number</HeaderText>
+        <select value={currentWeek} onChange={setWeekNumber}>
+          {data.map((val, i) => (
+            <option value={i}>
+              {val.week} - {val.title}
+            </option>
+          ))}
+        </select>
+      </Header>
       <Main>
         <CardText>{currentCard.en}</CardText>
         <CardText>{showTranslation ? currentCard.es : '...'}</CardText>

@@ -11,6 +11,12 @@ export default [
         en: 'Father',
         es: 'Padre',
       },
+    ],
+  },
+  {
+    week: 2,
+    title: 'Bar',
+    cards: [
       {
         en: 'Grandmother',
         es: 'Abuela',

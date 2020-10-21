@@ -28,6 +28,17 @@ export const Main = styled.main`
   flex: 1 0 auto;
 `
 
+export const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+`
+
+export const HeaderText = styled.span`
+  display: inline-block;
+  margin-right: 10px;
+`
+
 export const CardText = styled.h1`
   font-size: 100px;
 `
