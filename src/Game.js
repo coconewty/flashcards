@@ -11,73 +11,79 @@ import {
   ButtonWrapper,
 } from './Styles'
 
-let weekNumber = 0
-let cardNumber = 0
-const cards = data[weekNumber].cards
-const cardsLength = cards.length
-let shuffledCards = shuffle(cards)
+const TranslateButton = (props) => (
+  <Button variant="dark" size="lg" {...props}>
+    Show translation
+  </Button>
+)
+
+const NextCardButton = (props) => (
+  <Button variant="dark" size="lg" {...props}>
+    Next card
+  </Button>
+)
+
+const randomiseOrder = (cardObj) => {
+  if (Math.floor(Math.random() * 2) === 0) {
+    return [cardObj.en, cardObj.es]
+  } else {
+    return [cardObj.es, cardObj.en]
+  }
+}
 
 export default () => {
-  const [currentCard, setCurrentCard] = useState(shuffledCards[cardNumber])
-  const [currentWeek, setCurrentWeek] = useState(weekNumber)
-
+  const [weekNumber, setWeekNumber] = useState(0)
+  const [cards, setCards] = useState(shuffle(data[weekNumber].cards))
+  const [cardNumber, setCardNumber] = useState(0)
+  const [cardText, setCardText] = useState(randomiseOrder(cards[cardNumber]))
   const [showTranslation, setShowTranslation] = useState(false)
 
-  const nextCard = () => {
-    if (cardNumber === cardsLength - 1) {
-      shuffledCards = shuffle(data[weekNumber].cards)
-      cardNumber = 0
-    } else {
-      cardNumber++
-    }
-    setCurrentCard(shuffledCards[cardNumber])
+  const handleWeekChange = (event) => {
+    const newWeekNumber = event.target.value
+    setWeekNumber(newWeekNumber)
+    setCards(data[newWeekNumber].cards)
+    setCardNumber(0)
+    setShowTranslation(false)
   }
 
-  const setWeekNumber = (event) => {
-    weekNumber = event.target.value
-    setCurrentWeek(weekNumber)
-    shuffledCards = shuffle(data[weekNumber].cards)
-    cardNumber = 0
-    setCurrentCard(shuffledCards[cardNumber])
+  const handleShowTranslation = () => {
+    setShowTranslation(true)
+  }
+
+  const handleShowNextCard = () => {
+    setShowTranslation(false)
+    if (cardNumber === cards.length - 1) {
+      setCards(shuffle(data[weekNumber].cards))
+      setCardNumber(0)
+      setCardText(randomiseOrder(cards[cardNumber]))
+    } else {
+      setCardNumber(cardNumber + 1)
+      setCardText(randomiseOrder(cards[cardNumber]))
+    }
   }
 
   return (
     <Page>
       <Header>
         <HeaderText>Week number</HeaderText>
-        <select value={currentWeek} onChange={setWeekNumber}>
+        <select value={weekNumber} onChange={handleWeekChange}>
           {data.map((val, i) => (
-            <option value={i}>
+            <option value={i} key={i}>
               {val.week} - {val.title}
             </option>
           ))}
         </select>
       </Header>
       <Main>
-        <CardText>{currentCard.en}</CardText>
-        <CardText>{showTranslation ? currentCard.es : '...'}</CardText>
+        <CardText>{cardText[0]}</CardText>
+        <CardText>{showTranslation ? cardText[1] : '...'}</CardText>
       </Main>
       <ButtonWrapper>
         {!showTranslation && (
-          <Button
-            variant="dark"
-            size="lg"
-            onClick={() => setShowTranslation(true)}
-          >
-            Show translation
-          </Button>
+          <TranslateButton onClick={() => handleShowTranslation()} />
         )}
         {showTranslation && (
-          <Button
-            variant="dark"
-            size="lg"
-            onClick={() => {
-              setShowTranslation(false)
-              nextCard()
-            }}
-          >
-            Next card
-          </Button>
+          <NextCardButton onClick={() => handleShowNextCard()} />
         )}
       </ButtonWrapper>
     </Page>
