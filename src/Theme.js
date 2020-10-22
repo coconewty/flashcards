@@ -132,3 +132,51 @@ export const RoundCounter = styled.p`
   bottom: 0;
   right: 20px;
 `
+
+export const ToggleStarListButton = styled.button`
+  position: fixed;
+  bottom: 15px;
+  left: 20px;
+  border: none;
+  background: none;
+  z-index: 2;
+`
+
+const StarListWrapperOuter = styled.div`
+  background: #fafafa;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+`
+
+const StarListWrapperInner = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 60px;
+  overflow-y: scroll;
+`
+
+export const StarListWrapper = ({children}) => (
+  <StarListWrapperOuter>
+    <StarListWrapperInner>
+      {children}
+    </StarListWrapperInner>
+  </StarListWrapperOuter>
+)
+
+const StarListItemIcon = styled(FaStar)`
+  position: relative;
+  top: -2px;
+  margin-right: 6px;
+`
+
+export const StarListItem = ({children}) => (
+  <p>
+    <StarListItemIcon /> {children}
+  </p>
+)

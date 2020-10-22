@@ -14,6 +14,9 @@ import {
   ListenButton,
   StarButton,
   RoundCounter,
+  ToggleStarListButton,
+  StarListWrapper,
+  StarListItem
 } from './Theme'
 
 const coinFlip = () => {
@@ -39,6 +42,7 @@ export default () => {
   const [coinFlipResult, setCoinFlipResult] = useState(coinFlip())
   const [cardRoundCount, setCardRoundCount] = useState(1)
   const [starList, setStarList] = useState([])
+  const [starListIsVisible, setStarListIsVisible] = useState(false)
 
   const audioTag = useRef()
 
@@ -124,6 +128,11 @@ export default () => {
             {!showTranslation && '...'}
             {showTranslation && <Content2 />}
           </CardText>
+          {starListIsVisible && <StarListWrapper>
+            {cards.map(card => {
+              return starList.includes(card.id) ? <StarListItem>{card.es} › {card.en}</StarListItem> : null
+            })}
+          </StarListWrapper>}
         </Main>
         <ButtonWrapper>
           <StarButton onClick={() => handleStarClick()} active={starList.includes(cards[cardNumber].id)} />
@@ -138,6 +147,7 @@ export default () => {
         </RoundCounter>
       </Page>
       <audio className="sr-only" src="" ref={audioTag} autoPlay></audio>
+      <ToggleStarListButton onClick={() => setStarListIsVisible(starListIsVisible => !starListIsVisible)}>Toggle star list</ToggleStarListButton>
     </>
   )
 }
