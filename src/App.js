@@ -5,7 +5,6 @@ import {
   Page,
   Main,
   Header,
-  HeaderText,
   CardText,
   ButtonWrapper,
   TranslateButton,

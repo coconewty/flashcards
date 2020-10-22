@@ -43,6 +43,8 @@ export const Page = ({ children }) => (
 )
 
 export const Main = styled.main`
+  max-width: ${containerMaxWidth}px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,11 +57,6 @@ export const Header = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 20px;
-`
-
-export const HeaderText = styled.span`
-  display: inline-block;
-  margin-right: 10px;
 `
 
 export const CardText = styled.h1`
