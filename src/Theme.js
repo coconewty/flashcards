@@ -1,7 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
+import { generateMedia } from 'styled-media-query'
 import Button from 'react-bootstrap/Button'
 import { FaVolumeUp } from 'react-icons/fa'
+
+const containerMaxWidth = 1440
+
+const breakpoints = {
+  xs: 320,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1280,
+}
+
+// used for styled-components easy media queries
+export const media = generateMedia({
+  xs: `${breakpoints.xs}px`,
+  sm: `${breakpoints.sm}px`,
+  md: `${breakpoints.md}px`,
+  lg: `${breakpoints.lg}px`,
+  xl: `${breakpoints.xl}px`,
+})
 
 const PageOuter = styled.div`
   display: flex;
@@ -28,6 +48,7 @@ export const Main = styled.main`
   justify-content: center;
   align-items: center;
   flex: 1 0 auto;
+  padding: 0 30px;
 `
 
 export const Header = styled.div`
@@ -42,7 +63,13 @@ export const HeaderText = styled.span`
 `
 
 export const CardText = styled.h1`
-  font-size: 100px;
+  font-size: 40px;
+  ${media.greaterThan('md')`
+    font-size: 50px;
+  `}
+  ${media.greaterThan('lg')`
+    font-size: 100px;
+  `}
 `
 
 export const ButtonWrapper = styled.div`
@@ -67,13 +94,19 @@ export const NextCardButton = (props) => (
 )
 
 const ListenButtonWrapper = styled.button`
-  font-size: 40px;
+  display: inline-block;
+  font-size: 0.4em;
   border: none;
   background: none;
   padding: 20px;
-  top: -15px;
-  display: inline-block;
   position: relative;
+  top: -8px;
+  ${media.greaterThan('md')`
+    top: -10px;
+  `}
+  ${media.greaterThan('lg')`
+    top: -15px;
+  `}
 `
 
 export const ListenButton = (props) => (
@@ -81,3 +114,9 @@ export const ListenButton = (props) => (
     <FaVolumeUp />
   </ListenButtonWrapper>
 )
+
+export const RoundCounter = styled.p`
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+`
