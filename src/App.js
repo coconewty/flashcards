@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react'
 import data from './data'
 import shuffle from 'lodash.shuffle'
+import remove from 'lodash.remove'
+import { nanoid } from 'nanoid'
 import {
   Page,
   Main,
@@ -10,6 +12,7 @@ import {
   TranslateButton,
   NextCardButton,
   ListenButton,
+  StarButton,
   RoundCounter,
 } from './Theme'
 
@@ -26,13 +29,16 @@ const speechToText = (contentToSpeak) => {
   return `${baseUrl}${key}${lang}${voice}${src}`
 }
 
+const addIdsToCards = (cards) => cards.map(card => ({...card, id: nanoid()}))
+
 export default () => {
   const [showTranslation, setShowTranslation] = useState(false)
   const [weekNumber, setWeekNumber] = useState(0)
   const [cardNumber, setCardNumber] = useState(0)
-  const [cards, setCards] = useState(shuffle(data[weekNumber].cards))
+  const [cards, setCards] = useState(addIdsToCards(shuffle(data[weekNumber].cards)))
   const [coinFlipResult, setCoinFlipResult] = useState(coinFlip())
   const [cardRoundCount, setCardRoundCount] = useState(1)
+  const [starList, setStarList] = useState([])
 
   const audioTag = useRef()
 
@@ -44,7 +50,7 @@ export default () => {
     setShowTranslation(false)
     const newWeekNumber = parseInt(event.target.value)
     setWeekNumber(newWeekNumber)
-    setCards(shuffle(data[newWeekNumber].cards))
+    setCards(addIdsToCards(shuffle(data[newWeekNumber].cards)))
     setCardNumber(0)
     setCardRoundCount(1)
   }
@@ -53,7 +59,7 @@ export default () => {
     setShowTranslation(false)
     setCoinFlipResult(coinFlip())
     if (cardNumber === cards.length - 1) {
-      setCards(shuffle(data[weekNumber].cards))
+      setCards(cards => shuffle(cards))
       setCardNumber(0)
       setCardRoundCount((cardRoundCount) => cardRoundCount + 1)
     } else {
@@ -63,6 +69,17 @@ export default () => {
 
   const handleListenToWord = (contentToSpeak) => {
     audioTag.current.src = speechToText(contentToSpeak)
+  }
+
+  const handleStarClick = () => {
+    if(!starList.includes(cards[cardNumber].id)){
+      setStarList(starList => [...starList, cards[cardNumber].id])
+    } else {
+      const newArray = remove(starList, (id) => {
+        return id !== cards[cardNumber].id
+      })
+      setStarList(newArray)
+    }
   }
 
   const Content1 = () => (
@@ -109,6 +126,7 @@ export default () => {
           </CardText>
         </Main>
         <ButtonWrapper>
+          <StarButton onClick={() => handleStarClick()} active={starList.includes(cards[cardNumber].id)} />
           {showTranslation ? (
             <NextCardButton onClick={() => handleShowNextCard()} />
           ) : (

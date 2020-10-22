@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { generateMedia } from 'styled-media-query'
 import Button from 'react-bootstrap/Button'
-import { FaVolumeUp } from 'react-icons/fa'
+import { FaVolumeUp, FaStar, FaRegStar } from 'react-icons/fa'
 
 const containerMaxWidth = 1440
 
@@ -75,7 +75,9 @@ export const ButtonWrapper = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `
 
 export const TranslateButton = (props) => (
@@ -110,6 +112,19 @@ export const ListenButton = (props) => (
   <ListenButtonWrapper {...props}>
     <FaVolumeUp />
   </ListenButtonWrapper>
+)
+
+const StarButtonWrapper = styled.button`
+  margin-bottom: 5px;
+  background: none;
+  padding: 0 5px 3px;
+  border: none;
+`
+
+export const StarButton = ({...props}) => (
+  <StarButtonWrapper {...props}>
+    {props.active === true ? <FaStar /> : <FaRegStar />}
+  </StarButtonWrapper>
 )
 
 export const RoundCounter = styled.p`
