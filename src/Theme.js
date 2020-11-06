@@ -60,12 +60,13 @@ export const Header = styled.div`
 `
 
 export const CardText = styled.h1`
-  font-size: 40px;
+  text-align: center;
+  font-size: 30px;
   ${media.greaterThan('md')`
-    font-size: 50px;
+    font-size: 40px;
   `}
   ${media.greaterThan('lg')`
-    font-size: 100px;
+    font-size: 60px;
   `}
 `
 
@@ -121,7 +122,7 @@ const StarButtonWrapper = styled.button`
   border: none;
 `
 
-export const StarButton = ({...props}) => (
+export const StarButton = ({ ...props }) => (
   <StarButtonWrapper {...props}>
     {props.active === true ? <FaStar /> : <FaRegStar />}
   </StarButtonWrapper>
@@ -161,11 +162,9 @@ const StarListWrapperInner = styled.div`
   overflow-y: scroll;
 `
 
-export const StarListWrapper = ({children}) => (
+export const StarListWrapper = ({ children }) => (
   <StarListWrapperOuter>
-    <StarListWrapperInner>
-      {children}
-    </StarListWrapperInner>
+    <StarListWrapperInner>{children}</StarListWrapperInner>
   </StarListWrapperOuter>
 )
 
@@ -175,7 +174,7 @@ const StarListItemIcon = styled(FaStar)`
   margin-right: 6px;
 `
 
-export const StarListItem = ({children}) => (
+export const StarListItem = ({ children }) => (
   <p>
     <StarListItemIcon /> {children}
   </p>

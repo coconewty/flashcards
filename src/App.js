@@ -16,7 +16,7 @@ import {
   RoundCounter,
   ToggleStarListButton,
   StarListWrapper,
-  StarListItem
+  StarListItem,
 } from './Theme'
 
 const coinFlip = () => {
@@ -32,13 +32,16 @@ const speechToText = (contentToSpeak) => {
   return `${baseUrl}${key}${lang}${voice}${src}`
 }
 
-const addIdsToCards = (cards) => cards.map(card => ({...card, id: nanoid()}))
+const addIdsToCards = (cards) =>
+  cards.map((card) => ({ ...card, id: nanoid() }))
 
 export default () => {
   const [showTranslation, setShowTranslation] = useState(false)
-  const [weekNumber, setWeekNumber] = useState(0)
+  const [lessonNumber, setLessonNumber] = useState(0)
   const [cardNumber, setCardNumber] = useState(0)
-  const [cards, setCards] = useState(addIdsToCards(shuffle(data[weekNumber].cards)))
+  const [cards, setCards] = useState(
+    addIdsToCards(shuffle(data[lessonNumber].cards))
+  )
   const [coinFlipResult, setCoinFlipResult] = useState(coinFlip())
   const [cardRoundCount, setCardRoundCount] = useState(1)
   const [starList, setStarList] = useState([])
@@ -50,11 +53,11 @@ export default () => {
     setShowTranslation(true)
   }
 
-  const handleWeekChange = (event) => {
+  const handleLessonChange = (event) => {
     setShowTranslation(false)
-    const newWeekNumber = parseInt(event.target.value)
-    setWeekNumber(newWeekNumber)
-    setCards(addIdsToCards(shuffle(data[newWeekNumber].cards)))
+    const newLessonNumber = parseInt(event.target.value)
+    setLessonNumber(newLessonNumber)
+    setCards(addIdsToCards(shuffle(data[newLessonNumber].cards)))
     setCardNumber(0)
     setCardRoundCount(1)
   }
@@ -63,7 +66,7 @@ export default () => {
     setShowTranslation(false)
     setCoinFlipResult(coinFlip())
     if (cardNumber === cards.length - 1) {
-      setCards(cards => shuffle(cards))
+      setCards((cards) => shuffle(cards))
       setCardNumber(0)
       setCardRoundCount((cardRoundCount) => cardRoundCount + 1)
     } else {
@@ -76,8 +79,8 @@ export default () => {
   }
 
   const handleStarClick = () => {
-    if(!starList.includes(cards[cardNumber].id)){
-      setStarList(starList => [...starList, cards[cardNumber].id])
+    if (!starList.includes(cards[cardNumber].id)) {
+      setStarList((starList) => [...starList, cards[cardNumber].id])
     } else {
       const newArray = remove(starList, (id) => {
         return id !== cards[cardNumber].id
@@ -112,10 +115,10 @@ export default () => {
     <>
       <Page>
         <Header>
-          <select value={weekNumber} onChange={handleWeekChange}>
+          <select value={lessonNumber} onChange={handleLessonChange}>
             {data.map((val, i) => (
               <option value={i} key={i}>
-                {val.week} - {val.title}
+                {val.lesson} - {val.title}
               </option>
             ))}
           </select>
@@ -128,14 +131,23 @@ export default () => {
             {!showTranslation && '...'}
             {showTranslation && <Content2 />}
           </CardText>
-          {starListIsVisible && <StarListWrapper>
-            {cards.map(card => {
-              return starList.includes(card.id) ? <StarListItem>{card.es} › {card.en}</StarListItem> : null
-            })}
-          </StarListWrapper>}
+          {starListIsVisible && (
+            <StarListWrapper>
+              {cards.map((card) => {
+                return starList.includes(card.id) ? (
+                  <StarListItem>
+                    {card.es} › {card.en}
+                  </StarListItem>
+                ) : null
+              })}
+            </StarListWrapper>
+          )}
         </Main>
         <ButtonWrapper>
-          <StarButton onClick={() => handleStarClick()} active={starList.includes(cards[cardNumber].id)} />
+          <StarButton
+            onClick={() => handleStarClick()}
+            active={starList.includes(cards[cardNumber].id)}
+          />
           {showTranslation ? (
             <NextCardButton onClick={() => handleShowNextCard()} />
           ) : (
@@ -147,7 +159,13 @@ export default () => {
         </RoundCounter>
       </Page>
       <audio className="sr-only" src="" ref={audioTag} autoPlay></audio>
-      <ToggleStarListButton onClick={() => setStarListIsVisible(starListIsVisible => !starListIsVisible)}>Toggle star list</ToggleStarListButton>
+      <ToggleStarListButton
+        onClick={() =>
+          setStarListIsVisible((starListIsVisible) => !starListIsVisible)
+        }
+      >
+        Toggle star list
+      </ToggleStarListButton>
     </>
   )
 }

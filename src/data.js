@@ -1,6 +1,6 @@
 export default [
   {
-    week: 1,
+    lesson: 1,
     title: 'Talking About Family and Friends',
     cards: [
       { en: 'Nouns', es: 'Sustantivos' },
@@ -43,8 +43,8 @@ export default [
       { en: 'Special', es: 'Especial' },
       { en: 'Unique (m)', es: 'Único' },
       { en: 'Unique (f)', es: 'Única' },
-      { en: 'Same (m)', es: 'Mismo' },
-      { en: 'Same (f)', es: 'Misma' },
+      { en: 'Same, Even (m)', es: 'Mismo' },
+      { en: 'Same, Even (f)', es: 'Misma' },
       { en: 'Ours (m)', es: 'Nuestro' },
       { en: 'Ours (f)', es: 'Nuestra' },
       { en: 'Alive', es: 'Vivo' },
@@ -54,16 +54,127 @@ export default [
     ],
   },
   {
-    week: 2,
+    lesson: 2,
     title: 'Bar',
     cards: [
       {
-        en: 'Grandmother',
-        es: 'Abuela',
+        en: 'First lesson',
+        es: 'Lección primera',
       },
       {
-        en: 'Grandfather',
-        es: 'Abuelo',
+        en:
+          'Good morning ("Good days") , a [Spanish] omelette tapa ("tapa of omelette") , please ("by favour") .',
+        es: 'Buenos días, una tapa de tortilla, por favor.',
+      },
+      {
+        en: 'A snack',
+        es: 'Un aperitivo',
+      },
+      {
+        en: 'Yes. Right away ("Now even") .',
+        es: 'Sí. Ahora mismo.',
+      },
+      {
+        en: 'Now',
+        es: 'Ahora',
+      },
+      {
+        en: 'Good night',
+        es: 'Buenas noches',
+      },
+      {
+        en: 'Good afternoon/evening',
+        es: 'Buenas tardes',
+      },
+      {
+        en: 'Here you are! (Here, have)',
+        es: '¡Aquí tiene!',
+      },
+      {
+        en: 'Here',
+        es: 'Aquí',
+      },
+      {
+        en: 'House',
+        es: 'Casa',
+      },
+      {
+        en: 'Of',
+        es: 'De',
+      },
+      {
+        en: 'Day',
+        es: 'Dia',
+      },
+      {
+        en: 'Por',
+        es: 'By',
+      },
+      {
+        en: 'Tapa',
+        es: 'Bite-size',
+      },
+      {
+        en: 'A(n)',
+        es: 'Un/Una',
+      },
+      {
+        en: 'Thank you. Goodbye.',
+        es: 'Gracias. Adiós.',
+      },
+      {
+        en: 'Hey! That’s ("They-are") two euros.',
+        es: '¡Eh! Son dos euros',
+      },
+      {
+        en: 'Translate',
+        es: 'Traduzca',
+      },
+    ],
+  },
+  {
+    lesson: 3,
+    title: 'Numbers',
+    cards: [
+      {
+        en: '1',
+        es: 'Uno/Una',
+      },
+      {
+        en: '2',
+        es: 'Dos',
+      },
+      {
+        en: '3',
+        es: 'Tres',
+      },
+      {
+        en: '4',
+        es: 'Cuatro',
+      },
+      {
+        en: '5',
+        es: 'Cinco',
+      },
+      {
+        en: '6',
+        es: 'Seis',
+      },
+      {
+        en: '7',
+        es: 'Siete',
+      },
+      {
+        en: '8',
+        es: 'Ocho',
+      },
+      {
+        en: '9',
+        es: 'Nueve',
+      },
+      {
+        en: '10',
+        es: 'Diez',
       },
     ],
   },
